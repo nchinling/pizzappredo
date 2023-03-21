@@ -1,18 +1,22 @@
 package sg.edu.nus.iss.pizzaappredo.model;
 
+import java.io.Serializable;
 import java.io.StringReader;
+
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 
-public class Order {
+public class Order implements Serializable {
+    private static final long serialVersionUID=1L;
     
     private String orderId;
     private Delivery delivery;
     private Pizza pizza;
     private float totalCost;
     private float pizzaCost;
+
     
     public Order() {}
 
@@ -40,6 +44,7 @@ public class Order {
         this.totalCost = totalCost;
         this.pizzaCost = pizzaCost;
     }
+
 
     public String getOrderId() {return orderId;}
     public void setOrderId(String orderId) {this.orderId = orderId;}
@@ -72,9 +77,7 @@ public class Order {
     public String getPizzaName(){return this.getPizza().getPizzaName();}
     public String getSize(){return this.getPizza().getSize();}
     public int getQuantity(){return this.getPizza().getQuantity();}
-   
 
-    
 
     public static JsonObject toJSON(String json){
         JsonReader r = Json.createReader(new StringReader(json));
@@ -85,7 +88,7 @@ public class Order {
 
         return Json.createObjectBuilder()
                 .add("orderId", this.getOrderId())
-                .add("name", this.getDelivery().getName())
+                .add("name", this.getName())
                 .add("address", this.getAddress())
                 .add("phone", this.getPhoneNumber())
                 .add("rush", this.isRush())
@@ -97,5 +100,22 @@ public class Order {
                 .build();
     }
 
+    public static Order createOrderObject(String jsonStr){
+        JsonObject o = toJSON(jsonStr);
+        Pizza p = Pizza.createOrderObject(o);
+        Delivery d = Delivery.createOrderObject(o);
+        Order ord= new Order(p, d);
+        ord.setOrderId(o.getString("orderId"));
+        ord.setTotalCost((float)o.getJsonNumber("total").doubleValue());
+        return ord;
+    }
+
+    @Override
+    public String toString() {
+        return "orderId=" + orderId + ", delivery=" + delivery + ", pizza=" + pizza + ", totalCost=" + totalCost
+                + ", pizzaCost=" + pizzaCost + "]";
+    }
+
+    
 
 }

@@ -2,6 +2,7 @@ package sg.edu.nus.iss.pizzaappredo.model;
 
 import java.io.Serializable;
 
+import jakarta.json.JsonObject;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -39,5 +40,14 @@ public class Pizza implements Serializable {
 
     public int getQuantity() {return quantity;}
     public void setQuantity(int quantity) {this.quantity = quantity;}
+
+
+    public static Pizza createOrderObject(JsonObject o){
+        Pizza p = new Pizza();
+        p.setPizzaName(o.getString("pizza"));
+        p.setSize(o.getString("size"));
+        p.setQuantity(o.getInt("quantity"));
+        return p;
+    }
 
 }

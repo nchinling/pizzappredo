@@ -2,12 +2,13 @@ package sg.edu.nus.iss.pizzaappredo.model;
 
 import java.io.Serializable;
 
+import jakarta.json.JsonObject;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class Delivery implements Serializable  {
-    private static final long serialVersionID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @NotNull(message = "Please provide a name")
     @Size(min=3, message="Minimum of 3 characters")
@@ -51,5 +52,14 @@ public class Delivery implements Serializable  {
 
     public String getComments() {return comments;}
     public void setComments(String comments) {this.comments = comments;}
+
+    public static Delivery createOrderObject(JsonObject o){
+        Delivery d = new Delivery();
+        d.setName(o.getString("name"));
+        d.setAddress(o.getString("address"));
+        d.setPhoneNumber(o.getString("phone"));
+        d.setComments(o.getString("comments"));
+        return d;
+    }
 
 }

@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.pizzaappredo.repo;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,15 @@ public class PizzaRepository {
 
     public void save(Order order){
         this.template.opsForValue().set(order.getOrderId(), order.toJSON().toString());
+    }
+
+        //get json string from redis
+    public Optional<Order> get(String orderId) throws IOException{
+        String json = template.opsForValue().get(orderId);
+        if(null == json|| json.trim().length() <= 0){
+            return Optional.empty();
+        }
+
+        return Optional.of(Order.createOrderObject(json));
     }
 }

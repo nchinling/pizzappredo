@@ -1,9 +1,11 @@
 package sg.edu.nus.iss.pizzaappredo.service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,6 +60,10 @@ public class PizzaService {
 
     }
 
+    public Optional<Order> getOrder(String orderId) throws IOException{
+        return pizzaRepo.get(orderId);
+    }
+
     public Order savePizzaOrder(Pizza p, Delivery d){
         Order o = createPizzaOrder(p,d);
         pizzaRepo.save(o);
@@ -76,7 +82,7 @@ public class PizzaService {
 
     public float pizzaCost(Order o){
 
-        float total=0.2f;
+        float total=0f;
         switch(o.getPizzaName()){
             case "margherita":
                 total+=22;
