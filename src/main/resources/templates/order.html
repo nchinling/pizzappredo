@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Order Confirmation</title>
+</head>
+<body data-th-object="${order}">
+    <div class="container" align="center">
+        <h1>Delivery Details</h1>
+
+        <table>
+            <tr>
+                <td><h2>Order Number:</h2></td>
+                <td><h2><a data-th-href="@{'/order/' + *{orderId}}"
+                        data-th-text="*{orderId}">
+                    </h2></td>
+            </tr>
+            <br>
+            <tr>
+                <td><h2>Your order will be delivered to: </h2></td>
+                <td><h2 data-th-text="*{address}"></h2></td>
+            </tr>
+            <br>
+            <tr>
+                <td><h2>Pizza Cost:</h2></td>
+                <td><h2 data-th-text="'$' + *{pizzaCost}"></h2></td>
+            </tr>
+            <br>
+            <!-- <tr data-th-if="${order.isRush()}"> -->
+            <tr data-th-if="*{isRush}">
+                <td><h2>Rush:</h2></td>
+                <td><h2>$2</h2></td>
+            </tr>
+            <br>
+            <tr>
+               
+                <td><h2>Total Cost:</h2></td>
+                <td><h2 data-th-text="'$' + *{totalCost}"></h2></td>
+            </tr>
+            <br>
+            <tr>
+                <td><h2>Size:</h2></td>
+                <td><h2 data-th-text="*{size}"></h2></td>
+            </tr>
+            <br>
+            <tr>
+                <td><h2>Quantity:</h2></td>
+                <td><h2 data-th-text="*{quantity}"></h2></td>
+            </tr>
+            <br>
+
+    
+        </table>
+
+    </div>
+    
+</body>
+</html>
